@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/james-hu/cjtsd-js#readme",
   "devDependencies": {
+    "chai": "^3.2.0",
     "lodash": "^3.10.1",
     "mocha": "^2.3.2"
   }
