@@ -1,45 +1,47 @@
-(function(exports){
+(function(exports) {
 
-    // your code goes here
-	
-	function showLineChartWithC3(){
-		
-	}
-	
-	function showVarWidthBarChartWithD3(){
-		
-	}
+  // your code goes here
 
-	function mergeJSON(source1,source2){
-	    /*
-	     * Properties from the Souce1 object will be copied to Source2 Object.
-	     * Note: This method will return a new merged object, Source1 and Source2 original values will not be replaced.
-	     * */
-	    var mergedJSON = Object.create(source2);// Copying Source2 to a new Object
+  function drawVarWidthColumnChartWithD3() {
 
-	    for (var attrname in source1) {
-	        if(mergedJSON.hasOwnProperty(attrname)) {
-	          if ( source1[attrname]!=null && source1[attrname].constructor==Object ) {
-	              /*
-	               * Recursive call if the property is an object,
-	               * Iterate the object and set all properties of the inner object.
-	              */
-	              mergedJSON[attrname] = mergeJSON(source1[attrname], mergedJSON[attrname]);
-	          } 
+  }
 
-	        } else {//else copy the property from source1
-	            mergedJSON[attrname] = source1[attrname];
+  /**
+   * Create a new CJTSD object from time series data object in other formats
+   * @param  {[type]} other time series data object in other formats
+   * @return {CJTSD}       a new CJTSD object, or null if unable to do the conversion
+   */
+  function from(other){
 
-	        }
-	      }
+  }
 
-	      return mergedJSON;
-	}
-	
-   exports.cjtsd = function(){
-	   "showLineChartWithC3" : showLineChartWithC3,		// show line chart with C3+D3 library
-	   "showVarWidthBarChartWithD3" : showVarWidthBarChartWithD3, 	// show variable width bar chart with D3 library
-       "mergeJSON" : mergeJSON		// this is exposed as a utility function just in case someone needs it.
-    };
+  /**
+   * Create a merged object by overriding the properties of an object with those from another.
+   * The typical use case is for overriding default configuration JSON object with a custom one.
+   * @param  {[type]} original the original object
+   * @param  {[type]} override the object containing properties to override the originals
+   * @return {[type]}  a new object as the result of merting override to original
+   */
+  function merged(original, override) {
+    var mergedJSON = Object.create(original); // Copying Source2 to a new Object
+    for (var attrname in override) {
+      if (mergedJSON.hasOwnProperty(attrname)) {
+        if (override[attrname] != null && override[attrname].constructor == Object) {
+          /*
+           * Recursive call if the property is an object,
+           * Iterate the object and set all properties of the inner object.
+           */
+          mergedJSON[attrname] = merged(override[attrname], mergedJSON[attrname]);
+        }
+      } else { //else copy the property from source1
+        mergedJSON[attrname] = override[attrname];
+      }
+    }
+    return mergedJSON;
+  }
 
-})(typeof exports === 'undefined'? this['cjtsd']={}: exports);
+  exports.drawVarWidthColumnChartWithD3 = drawVarWidthColumnChartWithD3; // draw variable width column chart with D3 library
+  exports.from = from;
+  exports.mergeJSON = merged; // this is exposed as a utility function just in case someone needs it.
+
+})(typeof exports === 'undefined' ? this['cjtsd'] = {} : exports);
