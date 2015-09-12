@@ -13,6 +13,23 @@ describe('Conversion Tests', function() {
     it('should return null for null', function () {
       assert.equal(null, cjtsd.from(null));
     });
+    it('should return null for invalid input', function () {
+      assert.equal(null, cjtsd.from({}));
+      assert.equal(null, cjtsd.from([]));
+      assert.equal(null, cjtsd.from({"a" : "b"}));
+      assert.equal(null, cjtsd.from([{"a" : "b"}]));
+      assert.equal(null, cjtsd.from({"result" : "b"}));
+      assert.equal(null, cjtsd.from({"result" : [{"123": 234}]}));
+      assert.equal(null, cjtsd.from({"201506010000-201506020000" : "xyz"}));
+    });
+    it('should convert an entry in result-from-to-string-number.json', function () {
+      assert.deepEqual({"t":[24028755], "d":[5], "n":[3906]}, cjtsd.from({"201509081515-201509081520": 3906}));
+      assert.deepEqual({"t":[24028755], "d":[60], "n":[3906]}, cjtsd.from({"201509081515-201509081615": 3906}));
+    });
+    it('should use -1 for some entries in result-from-to-string-number.json', function () {
+      assert.deepEqual({"t":[24028755, 24028760], "d":[5, 5], "n":[3906, 3906]}, cjtsd.from({"201509081515-201509081520": 3906, "201509081520-201509081525": 3906}));
+      assert.deepEqual({"t":[24028755, 24028760], "d":[120, -1], "n":[3906, 3906]}, cjtsd.from({"201509081515-201509081715": 3906, "201509081520-201509081720": 3906}));
+    });
     it('should convert from result-from-to-string-number.json', function () {
       var converted = cjtsd.from(resultFromToStringNumberJSON);
       //console.log(JSON.stringify(converted));

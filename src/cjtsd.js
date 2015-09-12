@@ -16,17 +16,19 @@
       return null;
     }
 
-    var keys = Object.keys(other);
-    if (keys.length === 0){
-      return null;
-    }
+    if (typeof other === 'object'){
+      var keys = Object.keys(other);
+      if (keys.length === 0){
+        return null;
+      }
 
-    if (keys.length === 1 && keys[0] == "result"){
-      return fromAny (other[keys[0]]);
-    }
+      if (keys.length === 1 && keys[0] == "result"){
+        return fromAny (other[keys[0]]);
+      }
 
-    if (keys[0].match(/[0-9]{12}-[0-9]{12}/) && typeof other[keys[0]] === 'number'){
-      return fromFromToStringNumber(other, keys);
+      if (keys[0].match(/[0-9]{12}-[0-9]{12}/) && typeof other[keys[0]] === 'number'){
+        return fromFromToStringNumber(other, keys);
+      }
     }
 
     return null;
@@ -44,7 +46,12 @@
    * @return {[type]}       [description]
    */
   function fromFromToStringNumber(other, keys){
-    var result = {"u": "m", "t": [], "d": [], "n": []};
+    var result = {
+      // this is the default "u": "m", 
+      "t": [],
+      "d": [],
+      "n": []
+    };
     var t = result.t;
     var d = result.d;
     var n = result.n;
