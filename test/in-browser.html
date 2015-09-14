@@ -21,11 +21,14 @@
   <script>
     var resultFromToStringNumberJSON;
     var resultFromToStringNumberJSON_CJTSD;
-    
+
     function doTest(){
-      mocha.checkLeaks();
+      //mocha.checkLeaks();
       mocha.globals(['jQuery']);
-      mocha.run();
+      var runner = mocha.run();
+      runner.on('end', function(){
+          window.mochaResults = runner.stats;
+      });
     }
     window.onload = function() {
       jQuery.getJSON("https://raw.githubusercontent.com/james-hu/cjtsd-js/master/test/sample-data/result-from-to-string-number.json", function(data){
