@@ -1,8 +1,7 @@
 module.exports = function(grunt) {
 	// Loading dependencies
 	for (var key in grunt.file.readJSON("package.json").devDependencies) {
-		if (key !== "grunt" && key.indexOf("grunt") === 0	&&
-				key !== "grunt-cli" && key.indexOf("grunt-cli") === 0){
+		if (key !== "grunt" && key.indexOf("grunt") === 0){
 			grunt.loadNpmTasks(key);
 		}
 	}
