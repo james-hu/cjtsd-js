@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "test-in-remote-browsers": "grunt test-in-remote-browsers"
   },
   "repository": {
     "type": "git",
