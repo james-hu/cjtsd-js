@@ -6,3 +6,4 @@ This is the Javascript library for handling [Compact JSON Time Series Data (CJTS
 * Visualization
 
 
+[![Codeship Status for james-hu/cjtsd-js](https://codeship.com/projects/763e7040-3e27-0133-9aa2-5a0949beaeb8/status?branch=master)](https://codeship.com/projects/102720)
