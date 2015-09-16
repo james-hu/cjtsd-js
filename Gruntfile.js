@@ -51,6 +51,8 @@ module.exports = function(grunt) {
 					tunnelTimeout: 5,
 					concurrency: 3,
 					browsers: browsers,
+					pollInterval: 2000,
+					statusCheckAttempts: 180,  // 2s * 180 = 6 minutes
 					testname: "cjtsd-js in-browser (" + versionFromGitDescribe + ")"
 				}
 			}
