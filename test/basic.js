@@ -3,7 +3,9 @@ if ('undefined' != typeof require) {
   //var _= require("lodash");
   var cjtsd = require("../src/cjtsd.js");
 }
-var assert = chai.assert;
+if (!assert){
+  var assert = chai.assert;
+}
 
 /*
 function betterDeepEqual(o1, o2){

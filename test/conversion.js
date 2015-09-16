@@ -6,7 +6,9 @@ if ('undefined' != typeof require) {
   var resultFromToStringNumberJSON = require("./sample-data/result-from-to-string-number.json");
   var resultFromToStringNumberJSON_CJTSD = require("./sample-data/result-from-to-string-number_cjtsd.json");
 }
-var assert = chai.assert;
+if (!assert){
+  var assert = chai.assert;
+}
 
 describe('Conversion Tests', function() {
   describe('#from()', function () {
