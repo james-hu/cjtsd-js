@@ -20,11 +20,11 @@ module.exports = function(grunt) {
 	}, {
 		browserName: "internet explorer",
 		platform: "WIN8",
-		version: "10"
+		version: "11"
 	}, {
 		browserName: "internet explorer",
 		platform: "WIN7",
-		version: "9"
+		version: "10"
 	}, {
 		browserName: "safari",
 		platform: "OS X 10.9",
