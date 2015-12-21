@@ -5,6 +5,9 @@ if ('undefined' != typeof require) {
 
   var resultFromToStringNumberJSON = require("./sample-data/result-from-to-string-number.json");
   var resultFromToStringNumberJSON_CJTSD = require("./sample-data/result-from-to-string-number_cjtsd.json");
+
+  var getFormattedTimestamps_input = require("./sample-data/getFormattedTimestamps_input.json");
+  var getFormattedTimestamps_output = require("./sample-data/getFormattedTimestamps_output.json");
 }
 if (!assert){
   var assert = chai.assert;
@@ -39,6 +42,14 @@ describe('Conversion Tests', function() {
       assert.equal(converted.t.length, converted.d.length);
       assert.equal(converted.t.length, converted.n.length);
       assert.deepEqual(resultFromToStringNumberJSON_CJTSD, converted);
+    });
+    it('should getFormattedTimestamps from getFormattedTimestamps_input.json', function () {
+      var timestamps = cjtsd.getFormattedTimestamps(getFormattedTimestamps_input, 'YYYY-MM-DD', 'time');
+      //console.log(JSON.stringify(converted));
+      assert.deepEqual(getFormattedTimestamps_output, timestamps);
+
+      timestamps = cjtsd.getFormattedTimestamps(getFormattedTimestamps_input, 'YYYY-MM-DD');
+      assert.deepEqual(getFormattedTimestamps_output.slice(1, getFormattedTimestamps_output.length), timestamps);
     });
   });
 });

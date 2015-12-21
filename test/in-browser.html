@@ -15,6 +15,8 @@
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.2.0/chai.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/2.1.2/chai.min.js"></script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+
   <script src="../src/cjtsd.js"></script>
   <script>mocha.setup('bdd')</script>
   <script src="basic.js"></script>
@@ -22,6 +24,9 @@
   <script>
     var resultFromToStringNumberJSON;
     var resultFromToStringNumberJSON_CJTSD;
+
+    var getFormattedTimestamps_input;
+    var getFormattedTimestamps_output
 
     function doTest(){
       //mocha.checkLeaks();
@@ -36,7 +41,13 @@
         resultFromToStringNumberJSON = data;
         jQuery.getJSON("https://raw.githubusercontent.com/james-hu/cjtsd-js/master/test/sample-data/result-from-to-string-number_cjtsd.json", function(data){
           resultFromToStringNumberJSON_CJTSD = data;
-          doTest();
+          jQuery.getJSON("https://raw.githubusercontent.com/james-hu/cjtsd-js/master/test/sample-data/getFormattedTimestamps_input.json", function(data){
+            getFormattedTimestamps_input = data;
+            jQuery.getJSON("https://raw.githubusercontent.com/james-hu/cjtsd-js/master/test/sample-data/getFormattedTimestamps_output.json", function(data){
+              getFormattedTimestamps_output = data;
+              doTest();
+            });
+          });
         });
       });
 

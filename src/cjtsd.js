@@ -1,14 +1,63 @@
+"use strict";
+
+if ('undefined' != typeof require) {
+  var moment = require('moment');
+}
+
 (function(exports) {
 
-  // your code goes here
+  function getTimestampScale(cjtsdObj){
+    if (!cjtsdObj.u || cjtsdObj.u === 'm'){
+      return 60000;
+    }else if (cjtsdObj.u === 's'){
+      return 1000;
+    }else{
+      return 1;
+    }
+  }
 
-  function drawVarWidthColumnChartWithD3() {
+  /**
+   * Get an array of timestamps from the t property of an CJTSD object referring its u property.
+   * @param  {CJTSD} cjtsdObj the CJTSD object
+   * @return {array of numbers}    array of timestamps as numbers representing
+   *                   							milliseconds since local Epoch
+   */
+  function getTimestamps(cjtsdObj) {
+    var scale = getTimestampScale(cjtsdObj);
 
+    var result = new Array(cjtsdObj.t.length);
+    for (var i = 0; i < result.length; i ++){
+      result[i] = cjtsdObj.t[i] * scale;
+    }
+    return result;
+  }
+
+  /**
+   * Get an array of formatted timestamps from the t property of an CJTSD object referring its u property.
+   * @param  {CJTSD} cjtsdObj the CJTSD object
+   * @param  {string} formatPattern  format pattern as defined by moment
+   * @param  {string} optional head string that will be the first element of the returned array
+   * @return {array of strings}    array of formatted strings, optionally with the additional head element as specified
+   */
+  function getFormattedTimestamps(cjtsdObj, formatPattern, head) {
+    var scale = getTimestampScale(cjtsdObj);
+    var j = 0;
+    var result;
+    if (head){
+      result = new Array(cjtsdObj.t.length + 1);
+      result[j++] = head;
+    }else{
+      result = new Array(cjtsdObj.t.length);
+    }
+    for (var i = 0; i < cjtsdObj.t.length; i ++){
+      result[j++] = moment(scale * cjtsdObj.t[i]).utc().format(formatPattern);
+    }
+    return result;
   }
 
   /**
    * Create a new CJTSD object from time series data object in other formats
-   * @param  {[type]} other time series data object in other formats
+   * @param  {object} other time series data object in other formats
    * @return {CJTSD}       a new CJTSD object, or null if unable to do the conversion
    */
   function fromAny(other){
@@ -109,7 +158,7 @@
     return mergedJSON;
   }
 
-  exports.drawVarWidthColumnChartWithD3 = drawVarWidthColumnChartWithD3; // draw variable width column chart with D3 library
+  exports.getFormattedTimestamps = getFormattedTimestamps;
   exports.from = fromAny;
   exports.mergeJSON = merged; // this is exposed as a utility function just in case someone needs it.
 
