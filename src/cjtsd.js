@@ -1,10 +1,11 @@
-"use strict";
-
-if ('undefined' != typeof require) {
-  var moment = require('moment');
-}
-
 (function(exports) {
+  "use strict";
+
+  if ('undefined' == typeof require) {
+    var moment = window.moment;
+  } else {
+    var moment = require('moment');
+  }
 
   function getTimestampScale(cjtsdObj){
     if (!cjtsdObj.u || cjtsdObj.u === 'm'){
@@ -56,6 +57,20 @@ if ('undefined' != typeof require) {
   }
 
   /**
+   * Calculate the averages from summaries and counts
+   * @param  {CJTSD object} cjtsdObj the CJTSD object
+   * @return {void}
+   */
+  function calculateAverages(cjtsdObj) {
+    var avgs = new Array(cjtsdObj.t.length);
+    for (var i = 0; i < avgs.length; i ++){
+      avgs[i] = cjtsdObj.s[i] / cjtsdObj.c[i];
+    }
+    cjtsdObj.a = avgs;
+  }
+
+
+  /**
    * Create a new CJTSD object from time series data object in other formats
    * @param  {object} other time series data object in other formats
    * @return {CJTSD}       a new CJTSD object, or null if unable to do the conversion
@@ -75,8 +90,13 @@ if ('undefined' != typeof require) {
         return fromAny (other[keys[0]]);
       }
 
-      if (keys[0].match(/[0-9]{12}-[0-9]{12}/) && typeof other[keys[0]] === 'number'){
-        return fromFromToStringNumber(other, keys);
+      if (keys[0].match(/[0-9]{8,12}-[0-9]{8,12}/)){
+        var kl = (keys[0].length - 1)/2;
+        var result = fromFromToStringNumber(other, keys, kl);
+        if (typeof other[keys[0]] === 'object'){
+          extractFromN(result);
+        }
+        return result;
       }
     }
 
@@ -90,28 +110,44 @@ if ('undefined' != typeof require) {
    *   "201506020000-201506030000": 660283,
    *   "201506030000-201506040000": 1027534
    *  }
-   * @param  {[type]} other [description]
-   * @param  {[type]} keys  [description]
-   * @return {[type]}       [description]
+   *  or
+   * 	{
+   *   "2015060100-2015060200": 1237523,
+   *   "2015060200-2015060300": 660283,
+   *   "2015060300-2015060400": 1027534
+   *  }
+   *  or
+   * 	{
+   *   "20150601-20150602": 1237523,
+   *   "20150602-20150603": 660283,
+   *   "20150603-20150604": 1027534
+   *  }
+   * @param  {object} other an object
+   * @param  {array of strings} keys  array of keys of the other object
+   * @param  {number} key length - the length of start or end time keys. It can be 8, 10, or 12. 12 is the default value
+   * @return {CJTSD object}       the equivalent CJTSD object
    */
-  function fromFromToStringNumber(other, keys){
+  function fromFromToStringNumber(other, keys, kl){
     var result = {
-      // this is the default "u": "m",
-      "t": [],
-      "d": [],
-      "n": []
+      // this is the default: "u": "m",
+      "t": new Array(keys.length),
+      "d": new Array(keys.length),
+      "n": new Array(keys.length)
     };
     var t = result.t;
     var d = result.d;
     var n = result.n;
     var i = 0;
     var lastDuration;
+    if (!kl){
+      kl = 12;
+    }
     for (var key in other){
       try{
         var startTime = Date.UTC(key.substring(0, 4), key.substring(4, 6)-1, key.substring(6, 8),
-          key.substring(8, 10), key.substring(10, 12));
-        var endTime = Date.UTC(key.substring(13, 17), key.substring(17, 19)-1, key.substring(19, 21),
-          key.substring(21, 23), key.substring(23, 25));
+          kl >= 10 ? key.substring(8, 10) : 0, kl >= 12 ? key.substring(10, 12) : 0);
+        var endTime = Date.UTC(key.substring(1+kl, 5+kl), key.substring(5+kl, 7+kl)-1, key.substring(7+kl, 9+kl),
+          kl >= 10 ? key.substring(9+kl, 11+kl) : 0, kl >= 12 ? key.substring(11+kl, 13+kl) : 0);
         //console.log(key + " ==> " + startTime + " - " + endTime);
         t[i] = Math.floor(startTime / 60000);
         var duration = Math.floor((endTime - startTime) / 60000);
@@ -130,7 +166,82 @@ if ('undefined' != typeof require) {
       }
     }
 
+    removeRepeatingTrailing(d);
     return result;
+  }
+
+  function removeRepeatingTrailing(arr){
+    if (!arr || arr.length === 0){
+      return;
+    }
+
+    // keep only one from the trailing repeating sequence
+    var last = arr[arr.length - 1];
+    var i;
+    for (i = arr.length - 2; i >= 0; i --){
+      if (arr[i] !== last){
+        break;
+      }
+    }
+    if (i > 0){
+      arr.length = i + 2;
+    }
+
+    // if the last is -1, remove it
+    if (arr.length >= 2 && arr[arr.length - 1] === -1){
+      arr.length = arr.length - 1;
+    }
+  }
+
+  function extractFromN(data){
+    if (!data || !(data.n) || data.n.constructor !== Array || data.n.length === 0 || !isNaN(data.n[0])){
+      return;
+    }
+
+    for (var i = 0; i < data.n.length; i ++){
+      var o = data.n[i];
+      if (!o){
+        break;
+      }
+      var avg = o.avg || o.Avg || o.average || o.Average || undefined;
+      var count = o.count || o.Count || undefined;
+      var sum = o.sum || o.Sum || o.summary || o.Summary || o.total || o.Total || undefined;
+      var min = o.min || o.Min || o.minimum || o.Minimum || undefined;
+      var max = o.max || o.Max || o.maximum || o.Maximum || undefined;
+
+      if (avg){
+        if (!data.a){
+          data.a = new Array(data.n.length);
+        }
+        data.a[i] = avg;
+      }
+      if (count){
+        if (!data.c){
+          data.c = new Array(data.n.length);
+        }
+        data.c[i] = count;
+      }
+      if (sum){
+        if (!data.s){
+          data.s = new Array(data.n.length);
+        }
+        data.s[i] = sum;
+      }
+      if (min){
+        if (!data.m){
+          data.m = new Array(data.n.length);
+        }
+        data.m[i] = min;
+      }
+      if (max){
+        if (!data.x){
+          data.x = new Array(data.n.length);
+        }
+        data.x[i] = min;
+      }
+    }
+
+    delete data.n;
   }
 
   /**
@@ -158,7 +269,9 @@ if ('undefined' != typeof require) {
     return mergedJSON;
   }
 
+  exports.getTimestamps = getTimestamps;
   exports.getFormattedTimestamps = getFormattedTimestamps;
+  exports.calculateAverages = calculateAverages;
   exports.from = fromAny;
   exports.mergeJSON = merged; // this is exposed as a utility function just in case someone needs it.
 
