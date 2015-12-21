@@ -37,13 +37,13 @@
       });
     }
     window.onload = function() {
-      jQuery.getJSON("https://raw.githubusercontent.com/james-hu/cjtsd-js/master/test/sample-data/result-from-to-string-number.json", function(data){
+      jQuery.getJSON("https://raw.githubusercontent.com/james-hu/cjtsd-js/develop/test/sample-data/result-from-to-string-number.json", function(data){
         resultFromToStringNumberJSON = data;
-        jQuery.getJSON("https://raw.githubusercontent.com/james-hu/cjtsd-js/master/test/sample-data/result-from-to-string-number_cjtsd.json", function(data){
+        jQuery.getJSON("https://raw.githubusercontent.com/james-hu/cjtsd-js/develop/test/sample-data/result-from-to-string-number_cjtsd.json", function(data){
           resultFromToStringNumberJSON_CJTSD = data;
-          jQuery.getJSON("https://raw.githubusercontent.com/james-hu/cjtsd-js/master/test/sample-data/getFormattedTimestamps_input.json", function(data){
+          jQuery.getJSON("https://raw.githubusercontent.com/james-hu/cjtsd-js/develop/test/sample-data/getFormattedTimestamps_input.json", function(data){
             getFormattedTimestamps_input = data;
-            jQuery.getJSON("https://raw.githubusercontent.com/james-hu/cjtsd-js/master/test/sample-data/getFormattedTimestamps_output.json", function(data){
+            jQuery.getJSON("https://raw.githubusercontent.com/james-hu/cjtsd-js/develop/test/sample-data/getFormattedTimestamps_output.json", function(data){
               getFormattedTimestamps_output = data;
               doTest();
             });
