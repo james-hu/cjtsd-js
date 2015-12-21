@@ -209,31 +209,31 @@
       var min = o.min || o.Min || o.minimum || o.Minimum || undefined;
       var max = o.max || o.Max || o.maximum || o.Maximum || undefined;
 
-      if (avg){
+      if ('undefined' != typeof avg){
         if (!data.a){
           data.a = new Array(data.n.length);
         }
         data.a[i] = avg;
       }
-      if (count){
+      if ('undefined' != typeof count){
         if (!data.c){
           data.c = new Array(data.n.length);
         }
         data.c[i] = count;
       }
-      if (sum){
+      if ('undefined' != typeof sum){
         if (!data.s){
           data.s = new Array(data.n.length);
         }
         data.s[i] = sum;
       }
-      if (min){
+      if ('undefined' != typeof min){
         if (!data.m){
           data.m = new Array(data.n.length);
         }
         data.m[i] = min;
       }
-      if (max){
+      if ('undefined' != typeof max){
         if (!data.x){
           data.x = new Array(data.n.length);
         }
