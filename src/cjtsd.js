@@ -47,7 +47,7 @@
    */
   function fromFromToStringNumber(other, keys){
     var result = {
-      // this is the default "u": "m", 
+      // this is the default "u": "m",
       "t": [],
       "d": [],
       "n": []
@@ -75,7 +75,9 @@
         n[i] =other[key];
         i ++;
      }catch(err){
-        console && console.log("Unable to convert to CJTSD: " + err);
+       if (console && console.log){
+         console.log("Unable to convert to CJTSD: " + err);
+       }
       }
     }
 
@@ -93,7 +95,7 @@
     var mergedJSON = Object.create(original); // Copying Source2 to a new Object
     for (var attrname in override) {
       if (mergedJSON.hasOwnProperty(attrname)) {
-        if (override[attrname] != null && override[attrname].constructor == Object) {
+        if (override[attrname] !== null && override[attrname].constructor == Object) {
           /*
            * Recursive call if the property is an object,
            * Iterate the object and set all properties of the inner object.
@@ -111,4 +113,4 @@
   exports.from = fromAny;
   exports.mergeJSON = merged; // this is exposed as a utility function just in case someone needs it.
 
-})(typeof exports === 'undefined' ? this['cjtsd'] = {} : exports);
+})(typeof exports === 'undefined' ? this.cjtsd = {} : exports);
