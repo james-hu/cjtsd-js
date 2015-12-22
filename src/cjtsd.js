@@ -63,28 +63,6 @@
   }
 
   /**
-   * Get an array of objects each containing Date value and formatted string of the timestamp
-   * @param  {CJTSD object} cjtsdObj      the data
-   * @param  {string} formatPattern  format pattern as defined by moment
-   * @param  {Number} offset        optional timezone offset in milliseconds to be added to
-   *                                the original timestamp value when creating the Date object
-   * @return {Array of objects}      Array of objects that has v and f properties. It can be used directly in Google DataTable
-   */
-  function getTimestampDatesAndFormattedStrings(cjtsdObj, formatPattern, offset) {
-    if ('undefined' === typeof offset){
-      offset = 0;
-    }
-    var scale = getTimestampScale(cjtsdObj);
-    var result;
-    result = new Array(cjtsdObj.t.length);
-    for (var i = 0; i < cjtsdObj.t.length; i ++){
-      var utcTimestamp = scale * cjtsdObj.t[i];
-      result[i] = {v: new Date(utcTimestamp + offset), f: moment(utcTimestamp).utc().format(formatPattern)};
-    }
-    return result;
-  }
-
-  /**
    * Calculate the averages from summaries and counts
    * @param  {CJTSD object} cjtsdObj the CJTSD object
    * @return {void}
@@ -125,7 +103,7 @@
    * @param {DataTable} table the Google DataTable
    * @param {Array} arr   Array of values for the specified column
    * @param {Number} col   Index of the column, 0 for the first column
-   * @param {Number} row   Index of the row offset, 0 for the first row. Default value is 0
+   * @param {Number} row   Index of the row offset, 0 for the first row. If not specified, 0 will be used.
    */
   function setDataTableColumn(table, arr, col, row){
     if (!arr || arr.constructor !== Array){
@@ -142,6 +120,42 @@
 
     for (var i = 0; i < arr.length; i ++){
       table.setCell(row + i, col, arr[i]);
+    }
+  }
+
+   /**
+   * Set the values in a timestamp column of Google DataTable.
+   * If the DataTable currently does not have enough rows, empty new rows will be addd in this method.
+   * @param {DataTable} table the Google DataTable
+   * @param  {CJTSD object} cjtsdObj      the data
+   * @param {Number} col   Index of the column, 0 for the first column
+   * @param  {string} formatPattern  format pattern as defined by moment
+   * @param  {Number} offset        optional timezone offset in milliseconds to be added to
+   *                                the original timestamp value when creating the Date object.
+   *                                If not specified, 0 will by used.
+   * @param {Number} row   Index of the row offset, 0 for the first row. If not specified, 0 will be used.
+   */
+  function setDataTableTimestampColumn(table, cjtsdObj, col, formatPattern, offset, row){
+    if (!cjtsdObj || !cjtsdObj.t){
+      return;
+    }
+    var arr = cjtsdObj.t;
+
+    if ("undefined" === typeof offset){
+      offset = 0;
+    }
+    if ("undefined" === typeof row){
+      row = 0;
+    }
+    var numNewRows = row + arr.length - table.getNumberOfRows();
+    if (numNewRows > 0){
+      table.addRows(numNewRows);
+    }
+
+    var scale = getTimestampScale(cjtsdObj);
+    for (var i = 0; i < arr.length; i ++){
+      var utcTimestamp = scale * cjtsdObj.t[i];
+      table.setCell(row + i, col, new Date(utcTimestamp + offset), moment(utcTimestamp).utc().format(formatPattern));
     }
   }
 
@@ -361,7 +375,7 @@
     calculateAverages : calculateAverages,
     prepend : prepend,
     setDataTableColumn : setDataTableColumn,
-    getTimestampDatesAndFormattedStrings : getTimestampDatesAndFormattedStrings,
+    setDataTableTimestampColumn : setDataTableTimestampColumn,
     'from' : fromAny,
     mergeJSON : merged // this is exposed as a utility function just in case someone needs it.
   };
