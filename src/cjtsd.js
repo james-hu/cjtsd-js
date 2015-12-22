@@ -135,7 +135,7 @@
     if ("undefined" === typeof row){
       row = 0;
     }
-    var numNewRows = row - table.getNumberOfRows();
+    var numNewRows = row + arr.length - table.getNumberOfRows();
     if (numNewRows > 0){
       table.addRows(numNewRows);
     }
