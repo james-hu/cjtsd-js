@@ -36,4 +36,11 @@ describe('Basic Tests', function() {
       //assert(betterDeepEqual({"a": [1,2], "b": "2", "c": "3", "d": "4"}, cjtsd.mergeJSON({"a": "1", "b": "2", "c": "3"}, {"a": [1,2], "d": "4"})));
     });
   });
+  describe('#prepend()', function () {
+    it('should work', function () {
+      assert.deepEqual(["x", "a", "b"], cjtsd.prepend(["a", "b"], "x"));
+      assert.deepEqual(["x"], cjtsd.prepend(null, "x"));
+      assert.deepEqual(["x", "a"], cjtsd.prepend("a", "x"));
+    });
+  });
 });

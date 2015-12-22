@@ -44,7 +44,9 @@ describe('Conversion Tests', function() {
       assert.equal(converted.t.length, converted.n.length);
       assert.deepEqual(resultFromToStringNumberJSON_CJTSD, converted);
     });
-    it('should getFormattedTimestamps from getFormattedTimestamps_input.json', function () {
+  });
+  describe('#getFormattedTimestamps()', function () {
+    it('should work with getFormattedTimestamps_input.json', function () {
       var timestamps = cjtsd.getFormattedTimestamps(getFormattedTimestamps_input, 'YYYY-MM-DD', 'time');
       //console.log(JSON.stringify(converted));
       assert.deepEqual(getFormattedTimestamps_output, timestamps);
@@ -52,7 +54,9 @@ describe('Conversion Tests', function() {
       timestamps = cjtsd.getFormattedTimestamps(getFormattedTimestamps_input, 'YYYY-MM-DD');
       assert.deepEqual(getFormattedTimestamps_output.slice(1, getFormattedTimestamps_output.length), timestamps);
     });
-    it('should extractFromN correctly', function () {
+  });
+  describe('#extractFromN()', function () {
+    it('should work', function () {
       assert.deepEqual({"t":[24028755, 24028760, 24028765], "d":[120, -1, 5],
           "a": [0.008782059, 0.02, 0.12],
           "c": [213048, 435, 4565],

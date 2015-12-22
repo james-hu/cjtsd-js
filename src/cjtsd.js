@@ -75,6 +75,27 @@
     cjtsdObj.a = avgs;
   }
 
+  /**
+   * Construct a new array with a head element prepended
+   * @param  {Array} arr  the original array to which an element will be prepended
+   * @param  {any} head the head element to append
+   * @return {Array}      a new array with the head element prepended
+   */
+  function prepend(arr, head){
+    if (!arr){
+      return [head];
+    }
+    if (arr.constructor !== Array){
+      return [head, arr];
+    }
+
+    var result = new Array(arr.length + 1);
+    result[0] = head;
+    for (var i = 0; i < arr.length; i++){
+      result[i + 1] = arr[i];
+    }
+    return result;
+  }
 
   /**
    * Create a new CJTSD object from time series data object in other formats
@@ -267,7 +288,8 @@
    * @return {[type]}  a new object as the result of merting override to original
    */
   function merged(original, override) {
-    var mergedJSON = Object.create(original); // Copying Source2 to a new Object
+    var mergedJSON = (("undefined" === typeof original) || null === original) ?
+        {} : Object.create(original); // Copying Source2 to a new Object
     for (var attrname in override) {
       if (mergedJSON.hasOwnProperty(attrname)) {
         if (override[attrname] !== null && override[attrname].constructor == Object) {
@@ -289,6 +311,7 @@
     getTimestamps : getTimestamps,
     getFormattedTimestamps : getFormattedTimestamps,
     calculateAverages : calculateAverages,
+    prepend : prepend,
     'from' : fromAny,
     mergeJSON : merged // this is exposed as a utility function just in case someone needs it.
   };
