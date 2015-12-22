@@ -8,7 +8,7 @@ This is the Javascript library for handling [Compact JSON Time Series Data (CJTS
 ## Node.js
 ```npm install cjtsd```
 
-```var cjtsd = require("../src/cjtsd.js");```
+```var cjtsd = require("cjtsd");```
 
 ## Browser
 ```<script src="https://npmcdn.com/cjtsd/dist/cjtsd.min.js"></script>```
