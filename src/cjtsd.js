@@ -98,6 +98,32 @@
   }
 
   /**
+   * Set the values in a column of Google DataTable.
+   * If the DataTable currently does not have enough rows, empty new rows will be addd in this method.
+   * @param {DataTable} table the Google DataTable
+   * @param {Array} arr   Array of values for the specified column
+   * @param {Number} col   Index of the column, 0 for the first column
+   * @param {Number} row   Index of the row offset, 0 for the first row. Default value is 0
+   */
+  function setDataTableColumn(table, arr, col, row){
+    if (!arr || arr.constructor !== Array){
+      return;
+    }
+
+    if ("undefined" === typeof row){
+      row = 0;
+    }
+    var numNewRows = row - table.getNumberOfRows();
+    if (numNewRows > 0){
+      table.addRows(numNewRows);
+    }
+
+    for (var i = 0; i < arr.length; i ++){
+      table.setCell(row + i, col, arr[i]);
+    }
+  }
+
+  /**
    * Create a new CJTSD object from time series data object in other formats
    * @param  {object} other time series data object in other formats
    * @return {CJTSD}       a new CJTSD object, or null if unable to do the conversion
@@ -312,6 +338,7 @@
     getFormattedTimestamps : getFormattedTimestamps,
     calculateAverages : calculateAverages,
     prepend : prepend,
+    setDataTableColumn : setDataTableColumn,
     'from' : fromAny,
     mergeJSON : merged // this is exposed as a utility function just in case someone needs it.
   };
