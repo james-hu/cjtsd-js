@@ -63,6 +63,28 @@
   }
 
   /**
+   * Get an array of objects each containing Date value and formatted string of the timestamp
+   * @param  {CJTSD object} cjtsdObj      the data
+   * @param  {string} formatPattern  format pattern as defined by moment
+   * @param  {Number} offset        optional timezone offset in milliseconds to be added to
+   *                                the original timestamp value when creating the Date object
+   * @return {Array of objects}      Array of objects that has v and f properties. It can be used directly in Google DataTable
+   */
+  function getTimestampDatesAndFormattedStrings(cjtsdObj, formatPattern, offset) {
+    if ('undefined' === typeof offset){
+      offset = 0;
+    }
+    var scale = getTimestampScale(cjtsdObj);
+    var result;
+    result = new Array(cjtsdObj.t.length);
+    for (var i = 0; i < cjtsdObj.t.length; i ++){
+      var utcTimestamp = scale * cjtsdObj.t[i];
+      result[i] = {v: new Date(utcTimestamp + offset), f: moment(utcTimestamp).utc().format(formatPattern)};
+    }
+    return result;
+  }
+
+  /**
    * Calculate the averages from summaries and counts
    * @param  {CJTSD object} cjtsdObj the CJTSD object
    * @return {void}
@@ -339,6 +361,7 @@
     calculateAverages : calculateAverages,
     prepend : prepend,
     setDataTableColumn : setDataTableColumn,
+    getTimestampDatesAndFormattedStrings : getTimestampDatesAndFormattedStrings,
     'from' : fromAny,
     mergeJSON : merged // this is exposed as a utility function just in case someone needs it.
   };
