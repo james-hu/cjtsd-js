@@ -1,11 +1,17 @@
-(function(exports) {
+(function (root, factory) {
   "use strict";
-
-  if ('undefined' == typeof require) {
-    var moment = window.moment;
+  if (typeof define === 'function' && define.amd) {
+      // AMD
+      define(['moment'], factory);
+  } else if (typeof exports === 'object') {
+      // Node, CommonJS-like
+      module.exports = factory(require('moment'));
   } else {
-    var moment = require('moment');
+      // Browser globals (root is window)
+      root.cjtsd = factory(root.moment);
   }
+}(this, function (moment) {
+  "use strict";
 
   function getTimestampScale(cjtsdObj){
     if (!cjtsdObj.u || cjtsdObj.u === 'm'){
@@ -278,10 +284,12 @@
     return mergedJSON;
   }
 
-  exports.getTimestamps = getTimestamps;
-  exports.getFormattedTimestamps = getFormattedTimestamps;
-  exports.calculateAverages = calculateAverages;
-  exports.from = fromAny;
-  exports.mergeJSON = merged; // this is exposed as a utility function just in case someone needs it.
-
-})(typeof exports === 'undefined' ? this.cjtsd = {} : exports);
+  //    exposed public methods
+  return {
+    getTimestamps : getTimestamps,
+    getFormattedTimestamps : getFormattedTimestamps,
+    calculateAverages : calculateAverages,
+    'from' : fromAny,
+    mergeJSON : merged // this is exposed as a utility function just in case someone needs it.
+  };
+}));
