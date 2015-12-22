@@ -1,6 +1,6 @@
 {
   "name": "cjtsd",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Compact JSON Time Series Data library",
   "main": "cjtsd.js",
   "directories": {
