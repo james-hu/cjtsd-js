@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "mocha",
-    "test-in-remote-browsers": "grunt test-in-remote-browsers"
+    "test-in-remote-browsers": "grunt test-in-remote-browsers",
+    "prepublish" : "uglifyjs -o dist/cjtsd.min.js src/cjtsd.js"
   },
   "repository": {
     "type": "git",
