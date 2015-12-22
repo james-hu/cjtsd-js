@@ -203,11 +203,11 @@
       if (!o){
         break;
       }
-      var avg = o.avg || o.Avg || o.average || o.Average || undefined;
-      var count = o.count || o.Count || undefined;
-      var sum = o.sum || o.Sum || o.summary || o.Summary || o.total || o.Total || undefined;
-      var min = o.min || o.Min || o.minimum || o.Minimum || undefined;
-      var max = o.max || o.Max || o.maximum || o.Maximum || undefined;
+      var avg = firstDefined(o.avg, o.average, o.Avg, o.Average);
+      var count = firstDefined(o.count, o.Count);
+      var sum = firstDefined(o.sum, o.summary, o.total, o.Sum, o.Summary, o.Total);
+      var min = firstDefined(o.min, o.minimum, o.Min, o.Minimum);
+      var max = firstDefined(o.max, o.maximum, o.Max, o.Maximum);
 
       if ('undefined' != typeof avg){
         if (!data.a){
@@ -244,6 +244,15 @@
     delete data.n;
   }
 
+  function firstDefined() {
+      var len = arguments.length;
+      for (var i=0; i<len; i++) {
+          if ('undefined' != typeof arguments[i]) {
+              return arguments[i];
+          }
+      }
+      return undefined;
+  }
   /**
    * Create a merged object by overriding the properties of an object with those from another.
    * The typical use case is for overriding default configuration JSON object with a custom one.
