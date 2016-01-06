@@ -117,4 +117,18 @@ $.ajax(query)
 
 ```
 
+## Example - with Google DataTable
+
+```javascript
+var offset = timeZoneOffsets[$("#mainForm select[name=timeZone]").val()];
+var data = cjtsd.from(result);
+
+var table = new google.visualization.DataTable();
+table.addColumn('date', 'Time');
+table.addColumn('number', '# of Play events');
+cjtsd.setDataTableTimestampColumn(table, data, 0, 'YYYY-MM-DD HH:mm', offset);
+cjtsd.setDataTableColumn(table, data.n, 1);
+
+```
+
 [![Codeship Status for james-hu/cjtsd-js](https://codeship.com/projects/763e7040-3e27-0133-9aa2-5a0949beaeb8/status?branch=master)](https://codeship.com/projects/102720)
