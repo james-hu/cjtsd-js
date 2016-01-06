@@ -11,13 +11,13 @@ Latest version can be found on [npm](https://www.npmjs.com/package/cjtsd)
 npm install cjtsd --save-dev
 ```
 
-```
+```javascript
 var cjtsd = require("cjtsd");
 ```
 
 ## Browser
 Something similar to this:
-```
+```html
 <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 <script src="https://npmcdn.com/cjtsd/dist/cjtsd.min.js"></script>
 ```

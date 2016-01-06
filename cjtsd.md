@@ -103,7 +103,7 @@ Create a new CJTSD object from time series data object in other formats.
 
 Supported formats are:
 * FromToStringNumber:
-```
+```json
 	{
   "201506010000-201506020000": 1237523,
   "201506020000-201506030000": 660283,
@@ -111,7 +111,7 @@ Supported formats are:
  }
  ```
  or
- ```
+ ```json
 	{
   "2015060100-2015060200": 1237523,
   "2015060200-2015060300": 660283,
@@ -119,7 +119,7 @@ Supported formats are:
  }
  ```
  or
- ```
+ ```json
 	{
   "20150601-20150602": 1237523,
   "20150602-20150603": 660283,
@@ -127,7 +127,7 @@ Supported formats are:
  }
  ```
 * EmbeddedSingleResult:
- ```
+ ```json
 	{
   "result": {ANY SUPPORTED FORMAT},
  }
