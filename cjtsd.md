@@ -14,7 +14,7 @@ Get an array of timestamps from the `t` property of an CJTSD object referring it
 
 **cjtsdObj**: `CJTSD`, the CJTSD object
 
-**Returns**: `Array.&lt;Number&gt;`, array of timestamps as numbers representing
+**Returns**: `Array`, array of timestamps as numbers representing
                   							milliseconds since local Epoch
 
 
@@ -30,7 +30,7 @@ Get an array of formatted timestamps from the `t` property of an CJTSD object re
 
 **head**: `Object | undefined`, optional head element that if present will be prepended as the first element of the returned array
 
-**Returns**: `Array.&lt;Object&gt;`, array of formatted strings, optionally with the additional head element as specified
+**Returns**: `Array`, array of formatted strings, optionally with the additional head element as specified
 
 
 ### calculateAverages(cjtsdObj) 

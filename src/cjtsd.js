@@ -26,7 +26,7 @@
   /**
    * Get an array of timestamps from the `t` property of an CJTSD object referring its `u` property.
    * @param  {CJTSD} cjtsdObj the CJTSD object
-   * @return {Number[]}    array of timestamps as numbers representing
+   * @return {Array}    array of timestamps as numbers representing
    *                   							milliseconds since local Epoch
    */
   function getTimestamps(cjtsdObj) {
@@ -44,7 +44,7 @@
    * @param  {CJTSD} cjtsdObj the CJTSD object
    * @param  {string} formatPattern  format pattern as defined by moment
    * @param  {Object|undefined} [head] optional head element that if present will be prepended as the first element of the returned array
-   * @return {Object[]}    array of formatted strings, optionally with the additional head element as specified
+   * @return {Array}    array of formatted strings, optionally with the additional head element as specified
    */
   function getFormattedTimestamps(cjtsdObj, formatPattern, head) {
     var scale = getTimestampScale(cjtsdObj);
