@@ -9,7 +9,8 @@
   "scripts": {
     "test": "mocha",
     "test-in-remote-browsers": "grunt test-in-remote-browsers",
-    "prepublish": "uglifyjs -o dist/cjtsd.min.js src/cjtsd.js"
+    "prepublish": "uglifyjs -o dist/cjtsd.min.js src/cjtsd.js",
+    "jsdox": "jsdox --output . src/cjtsd.js"
   },
   "repository": {
     "type": "git",
@@ -37,9 +38,10 @@
     "grunt-contrib-connect": "^0.11.2",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-saucelabs": "^8.6.1",
+    "jsdox": "^0.4.9",
     "lodash": "^3.10.1",
-    "uglify-js": "^2.6.1",
-    "mocha": "^2.3.2"
+    "mocha": "^2.3.2",
+    "uglify-js": "^2.6.1"
   },
   "dependencies": {
     "moment": "^2.10.6"

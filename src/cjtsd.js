@@ -24,9 +24,9 @@
   }
 
   /**
-   * Get an array of timestamps from the t property of an CJTSD object referring its u property.
+   * Get an array of timestamps from the `t` property of an CJTSD object referring its `u` property.
    * @param  {CJTSD} cjtsdObj the CJTSD object
-   * @return {array of numbers}    array of timestamps as numbers representing
+   * @return {Number[]}    array of timestamps as numbers representing
    *                   							milliseconds since local Epoch
    */
   function getTimestamps(cjtsdObj) {
@@ -40,11 +40,11 @@
   }
 
   /**
-   * Get an array of formatted timestamps from the t property of an CJTSD object referring its u property.
+   * Get an array of formatted timestamps from the `t` property of an CJTSD object referring its `u` property.
    * @param  {CJTSD} cjtsdObj the CJTSD object
    * @param  {string} formatPattern  format pattern as defined by moment
-   * @param  {string} optional head string that will be the first element of the returned array
-   * @return {array of strings}    array of formatted strings, optionally with the additional head element as specified
+   * @param  {Object|undefined} [head] optional head element that if present will be prepended as the first element of the returned array
+   * @return {Object[]}    array of formatted strings, optionally with the additional head element as specified
    */
   function getFormattedTimestamps(cjtsdObj, formatPattern, head) {
     var scale = getTimestampScale(cjtsdObj);
@@ -63,9 +63,9 @@
   }
 
   /**
-   * Calculate the averages from summaries and counts
-   * @param  {CJTSD object} cjtsdObj the CJTSD object
-   * @return {void}
+   * Calculate the averages from summaries and counts.
+   * The averages will be put into the `a` property of the CJTSD object.
+   * @param  {CJTSD} cjtsdObj the CJTSD object
    */
   function calculateAverages(cjtsdObj) {
     var avgs = new Array(cjtsdObj.t.length);
@@ -77,8 +77,8 @@
 
   /**
    * Construct a new array with a head element prepended
-   * @param  {Array} arr  the original array to which an element will be prepended
-   * @param  {any} head the head element to append
+   * @param  {Array} arr  the original array which will not be altered in this function.
+   * @param  {Object} head the head element to append
    * @return {Array}      a new array with the head element prepended
    */
   function prepend(arr, head){
@@ -103,7 +103,7 @@
    * @param {DataTable} table the Google DataTable
    * @param {Array} arr   Array of values for the specified column
    * @param {Number} col   Index of the column, 0 for the first column
-   * @param {Number} row   Index of the row offset, 0 for the first row. If not specified, 0 will be used.
+   * @param {Number|0} [row]   Index of the row offset, 0 for the first row. If not specified, 0 will be used.
    */
   function setDataTableColumn(table, arr, col, row){
     if (!arr || arr.constructor !== Array){
@@ -127,13 +127,13 @@
    * Set the values in a timestamp column of Google DataTable.
    * If the DataTable currently does not have enough rows, empty new rows will be addd in this method.
    * @param {DataTable} table the Google DataTable
-   * @param  {CJTSD object} cjtsdObj      the data
+   * @param {CJTSD} cjtsdObj      the data
    * @param {Number} col   Index of the column, 0 for the first column
-   * @param  {string} formatPattern  format pattern as defined by moment
-   * @param  {Number} offset        optional timezone offset in milliseconds to be added to
+   * @param {string} formatPattern  format pattern as defined by moment
+   * @param {Number|0} [offset]        optional timezone offset in milliseconds to be added to
    *                                the original timestamp value when creating the Date object.
    *                                If not specified, 0 will by used.
-   * @param {Number} row   Index of the row offset, 0 for the first row. If not specified, 0 will be used.
+   * @param {Number|0} [row]   Index of the row offset, 0 for the first row. If not specified, 0 will be used.
    */
   function setDataTableTimestampColumn(table, cjtsdObj, col, formatPattern, offset, row){
     if (!cjtsdObj || !cjtsdObj.t){
@@ -160,8 +160,42 @@
   }
 
   /**
-   * Create a new CJTSD object from time series data object in other formats
-   * @param  {object} other time series data object in other formats
+   * Create a new CJTSD object from time series data object in other formats.
+   *
+   * Supported formats are:
+   * * FromToStringNumber:
+   * ```
+   * 	{
+   *   "201506010000-201506020000": 1237523,
+   *   "201506020000-201506030000": 660283,
+   *   "201506030000-201506040000": 1027534
+   *  }
+   *  ```
+   *  or
+   *  ```
+   * 	{
+   *   "2015060100-2015060200": 1237523,
+   *   "2015060200-2015060300": 660283,
+   *   "2015060300-2015060400": 1027534
+   *  }
+   *  ```
+   *  or
+   *  ```
+   * 	{
+   *   "20150601-20150602": 1237523,
+   *   "20150602-20150603": 660283,
+   *   "20150603-20150604": 1027534
+   *  }
+   *  ```
+   * * EmbeddedSingleResult:
+   *  ```
+   * 	{
+   *   "result": {ANY SUPPORTED FORMAT},
+   *  }
+   *  ```
+   *
+   * @alias from
+   * @param  {Object} other time series data object in other format
    * @return {CJTSD}       a new CJTSD object, or null if unable to do the conversion
    */
   function fromAny(other){
@@ -211,10 +245,11 @@
    *   "20150602-20150603": 660283,
    *   "20150603-20150604": 1027534
    *  }
+   * @private
    * @param  {object} other an object
-   * @param  {array of strings} keys  array of keys of the other object
-   * @param  {number} key length - the length of start or end time keys. It can be 8, 10, or 12. 12 is the default value
-   * @return {CJTSD object}       the equivalent CJTSD object
+   * @param  {string[]} keys  array of keys of the other object
+   * @param  {Number} key length - the length of start or end time keys. It can be 8, 10, or 12. 12 is the default value
+   * @return {CJTSD}       the equivalent CJTSD object
    */
   function fromFromToStringNumber(other, keys, kl){
     var result = {
@@ -345,9 +380,9 @@
   /**
    * Create a merged object by overriding the properties of an object with those from another.
    * The typical use case is for overriding default configuration JSON object with a custom one.
-   * @param  {[type]} original the original object
-   * @param  {[type]} override the object containing properties to override the originals
-   * @return {[type]}  a new object as the result of merting override to original
+   * @param  {Object} original the original object which will not be altered in this function
+   * @param  {Object} override the object containing properties to override the originals
+   * @return {Object}  a new object as the result of merting override to original
    */
   function merged(original, override) {
     var mergedJSON = (("undefined" === typeof original) || null === original) ?

@@ -1,17 +1,22 @@
 # Compact JSON Time Series Data library for Javascript
 
-This is the Javascript library for handling [Compact JSON Time Series Data (CJTSD)](https://github.com/james-hu/cjtsd-js/wiki/Compact-JSON-Time-Series-Data) data in either a browser or a Node.js environment for:
-
-* Transformation
-* Visualization
+This is the Javascript library for handling [Compact JSON Time Series Data (CJTSD)](https://github.com/james-hu/cjtsd-js/wiki/Compact-JSON-Time-Series-Data) data in either a browser or a Node.js environment. API documentation is available [here](cjtsd.md).
 
 ## Node.js
-```npm install cjtsd```
+```
+npm install cjtsd
+```
 
-```var cjtsd = require("cjtsd");```
+```
+var cjtsd = require("cjtsd");
+```
 
 ## Browser
-```<script src="https://npmcdn.com/cjtsd/dist/cjtsd.min.js"></script>```
+Something similar to this:
+```
+<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<script src="https://npmcdn.com/cjtsd/dist/cjtsd.min.js"></script>
+```
 
 
 ## Example - with C3.js
