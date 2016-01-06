@@ -129,7 +129,7 @@ Supported formats are:
 * EmbeddedSingleResult:
  ```json
 	{
-  "result": {ANY SUPPORTED FORMAT},
+  "result": {ANY SUPPORTED FORMAT}
  }
  ```
 
