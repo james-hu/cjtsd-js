@@ -8,7 +8,7 @@ Latest version can be found on [npm](https://www.npmjs.com/package/cjtsd)
 
 ## Node.js
 ```
-npm install cjtsd
+npm install cjtsd --save-dev
 ```
 
 ```
