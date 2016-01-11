@@ -44,6 +44,6 @@
     "uglify-js": "^2.6.1"
   },
   "dependencies": {
-    "moment": "^2.10.6"
+    "moment": "^2.11.1"
   }
 }

@@ -1,0 +1,35 @@
+{
+  "name": "cjtsd",
+  "description": "Compact JSON Time Series Data library",
+  "main": "cjtsd.js",
+  "authors": [
+    "James Hu"
+  ],
+  "license": "Apache-2.0",
+  "keywords": [
+    "CJTSD",
+    "json",
+    "time",
+    "series",
+    "data",
+    "table",
+    "chart"
+  ],
+  "homepage": "https://github.com/james-hu/cjtsd-js",
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals",
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "moment": "~2.11.1"
+  }
+}
