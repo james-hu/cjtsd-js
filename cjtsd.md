@@ -6,7 +6,7 @@
 
 * * *
 
-### getTimestamps(cjtsdObj) 
+### getTimestamps(cjtsdObj)
 
 Get an array of timestamps from the `t` property of an CJTSD object referring its `u` property.
 
@@ -18,7 +18,7 @@ Get an array of timestamps from the `t` property of an CJTSD object referring it
                   							milliseconds since local Epoch
 
 
-### getFormattedTimestamps(cjtsdObj, formatPattern, head) 
+### getFormattedTimestamps(cjtsdObj, formatPattern, head)
 
 Get an array of formatted timestamps from the `t` property of an CJTSD object referring its `u` property.
 
@@ -33,7 +33,7 @@ Get an array of formatted timestamps from the `t` property of an CJTSD object re
 **Returns**: `Array`, array of formatted strings, optionally with the additional head element as specified
 
 
-### calculateAverages(cjtsdObj) 
+### calculateAverages(cjtsdObj)
 
 Calculate the averages from summaries and counts.
 The averages will be put into the `a` property of the CJTSD object.
@@ -44,7 +44,7 @@ The averages will be put into the `a` property of the CJTSD object.
 
 
 
-### prepend(arr, head) 
+### prepend(arr, head)
 
 Construct a new array with a head element prepended
 
@@ -57,7 +57,7 @@ Construct a new array with a head element prepended
 **Returns**: `Array`, a new array with the head element prepended
 
 
-### setDataTableColumn(table, arr, col, row) 
+### setDataTableColumn(table, arr, col, row)
 
 Set the values in a column of Google DataTable.
 If the DataTable currently does not have enough rows, empty new rows will be addd in this method.
@@ -74,7 +74,7 @@ If the DataTable currently does not have enough rows, empty new rows will be add
 
 
 
-### setDataTableTimestampColumn(table, cjtsdObj, col, formatPattern, offset, row) 
+### setDataTableTimestampColumn(table, cjtsdObj, col, formatPattern, offset, row)
 
 Set the values in a timestamp column of Google DataTable.
 If the DataTable currently does not have enough rows, empty new rows will be addd in this method.
@@ -97,7 +97,7 @@ If the DataTable currently does not have enough rows, empty new rows will be add
 
 
 
-### from(other) 
+### from(other)
 
 Create a new CJTSD object from time series data object in other formats.
 
@@ -140,29 +140,5 @@ Supported formats are:
 **Returns**: `CJTSD`, a new CJTSD object, or null if unable to do the conversion
 
 
-### merged(original, override) 
-
-Create a merged object by overriding the properties of an object with those from another.
-The typical use case is for overriding default configuration JSON object with a custom one.
-
-**Parameters**
-
-**original**: `Object`, the original object which will not be altered in this function
-
-**override**: `Object`, the object containing properties to override the originals
-
-**Returns**: `Object`, a new object as the result of merting override to original
-
-
 
 * * *
-
-
-
-
-
-
-
-
-
-

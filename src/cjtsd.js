@@ -378,6 +378,7 @@
       return undefined;
   }
   /**
+   * This is an internal funciton!
    * Create a merged object by overriding the properties of an object with those from another.
    * The typical use case is for overriding default configuration JSON object with a custom one.
    * @param  {Object} original the original object which will not be altered in this function
