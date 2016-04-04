@@ -33,6 +33,36 @@ Get an array of formatted timestamps from the `t` property of an CJTSD object re
 **Returns**: `Array`, array of formatted strings, optionally with the additional head element as specified
 
 
+### mergeTimestamps(varArgs)
+
+Merge multiple timestamp arrays into one.
+
+**Parameters**
+
+**varArgs**: `Array.&lt;number&gt;`, multiple arrays representing timestamps as numbers, arrays must all be sorted.
+                                Arrays can be null or empty.
+
+**Returns**: `Array.&lt;number&gt;`, merged array of timestamps. It is sorted, and contains distinct elements from the input arrays.
+                          			The result may be empty but never null.
+
+
+### alignByTimestamps(timestamps, dataTimestamps, data)
+
+Align data by timestamps
+
+**Parameters**
+
+**timestamps**: `Array.&lt;number&gt;`, array of timestamps that the data will be aligned to, it must be sorted
+
+**dataTimestamps**: `Array.&lt;number&gt;`, array of timestamps corresponding to the data array, it must be sorted
+
+**data**: `Array.&lt;Object&gt;`, array of the data, the length must be the same as dataTimestamps's
+
+**Returns**: `Array.&lt;Object&gt;`, a new data array that has the same length as timestamps
+                                  that is the result of aligning the data with to the timestamps.
+                                  Null is used for non-existing data points.
+
+
 ### calculateAverages(cjtsdObj)
 
 Calculate the averages from summaries and counts.

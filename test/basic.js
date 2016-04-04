@@ -43,4 +43,35 @@ describe('Basic Tests', function() {
       assert.deepEqual(["x", "a"], cjtsd.prepend("a", "x"));
     });
   });
+  describe('#mergeTimestamps()', function () {
+    it('should work', function () {
+      assert.deepEqual([], cjtsd.mergeTimestamps(null));
+      assert.deepEqual([], cjtsd.mergeTimestamps(null, null));
+      assert.deepEqual([], cjtsd.mergeTimestamps([]));
+      assert.deepEqual([], cjtsd.mergeTimestamps([], [], []));
+      assert.deepEqual([], cjtsd.mergeTimestamps([], null, []));
+      assert.deepEqual([1], cjtsd.mergeTimestamps([1], null, []));
+      assert.deepEqual([1,2,3], cjtsd.mergeTimestamps([1,2,3], null, []));
+      assert.deepEqual([1,2,3], cjtsd.mergeTimestamps([1,2,3], [1,2,3], [1,2,3]));
+      assert.deepEqual([1,2,3,4,5,6], cjtsd.mergeTimestamps([1,2,3], [1,2,3,4,5,6], [1,2,3]));
+      assert.deepEqual([1,2,3,4,5,6], cjtsd.mergeTimestamps([2,3], [1,2,5,6], [2,4]));
+      assert.deepEqual([1,2,3,4,5,6], cjtsd.mergeTimestamps([2], [5,6], [1,4], [1,2,3,4]));
+      assert.deepEqual([1,2,3,4,5,6], cjtsd.mergeTimestamps([6], [5,6], [], null, [1,4], [2,3,4]));
+      assert.deepEqual([1,2,3,4,5,6], cjtsd.mergeTimestamps([6], [5,6], [], null, [1,4,6], [2,3,4]));
+      assert.deepEqual([1,2,3,4,5,6], cjtsd.mergeTimestamps([1,6], [2,5], [2,3,4]));
+      assert.deepEqual([1,2,3,4,5,6], cjtsd.mergeTimestamps([1,2,3,4], [5,6], [1,2,3,4], [1,2,3], [1,2]));
+    });
+  });
+  describe('#alignByTimestamps()', function () {
+    it('should work', function () {
+      assert.deepEqual([null,null,null], cjtsd.alignByTimestamps([1,2,3], [], []));
+      assert.deepEqual([null,null,null], cjtsd.alignByTimestamps([1,2,3], null, null));
+      assert.deepEqual([null,null,null], cjtsd.alignByTimestamps([1,2,3], [4,5], [4,5]));
+      assert.deepEqual([1,2,3], cjtsd.alignByTimestamps([1,2,3], [1,2,3], [1,2,3]));
+      assert.deepEqual([null, 2,3,4,5], cjtsd.alignByTimestamps([1,2,3,4,5], [2,3,4,5], [2,3,4,5]));
+      assert.deepEqual([1,2,3,null,null], cjtsd.alignByTimestamps([1,2,3,4,5], [1,2,3], [1,2,3]));
+      assert.deepEqual([null,2,3,null,5], cjtsd.alignByTimestamps([1,2,3,4,5], [2,3,5], [2,3,5]));
+      assert.deepEqual([null,"two","three",null,"five"], cjtsd.alignByTimestamps([1,2,3,4,5], [2,3,5], ["two", "three", "five"]));
+    });
+  });
 });

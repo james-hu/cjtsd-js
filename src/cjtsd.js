@@ -63,6 +63,94 @@
   }
 
   /**
+   * Merge multiple timestamp arrays into one.
+   * @param {...number[]} varArgs    multiple arrays representing timestamps as numbers, arrays must all be sorted.
+   *                                 Arrays can be null or empty.
+   * @return {number[]} merged array of timestamps. It is sorted, and contains distinct elements from the input arrays.
+   *                           			The result may be empty but never null.
+   */
+  function mergeTimestamps(varArgs){
+    var arrays = [];
+    for (var i = 0; i < arguments.length; i ++){
+      var arg = arguments[i];
+      if ((typeof arg !== 'undefined') && arg !== null && arg.length > 0){
+        arrays.push(arg);
+      }
+    }
+    var pos = Array.apply(null, new Array(arrays.length)).map(Number.prototype.valueOf,0);
+
+    var result = [];
+
+    var min;
+    var nsOfMin = [];
+    do{
+      min = null;
+      nsOfMin.length = 0;
+      for (var n = 0; n < pos.length; n ++){
+        var arr = arrays[n];
+        var p = pos[n];
+        if (p < arr.length ){
+          var x = arr[p];
+          if (min === null){  // first
+            min = x;
+            pos[n] = p + 1;
+            nsOfMin.push(n);
+            result.push(min);
+          }else if (x == min){  // duplicated
+            pos[n] = p + 1;
+            nsOfMin.push(n);
+          }else if (x < min){  // smaller
+            min = x;
+            pos[n] = p + 1;
+            result[result.length - 1] = min;
+            for (var i = 0; i < nsOfMin.length; i ++){
+              pos[nsOfMin[i]] = pos[nsOfMin[i]] - 1;
+            }
+            nsOfMin.length = 0;
+            nsOfMin.push(n);
+          }
+        }
+      }
+    }while(min !== null);
+
+    return result;
+  }
+
+  /**
+   * Align data by timestamps
+   * @param  {number[]} timestamps     array of timestamps that the data will be aligned to, it must be sorted
+   * @param  {number[]} dataTimestamps array of timestamps corresponding to the data array, it must be sorted
+   * @param  {Object[]} data           array of the data, the length must be the same as dataTimestamps's
+   * @return {Object[]}                a new data array that has the same length as timestamps
+   *                                   that is the result of aligning the data with to the timestamps.
+   *                                   Null is used for non-existing data points.
+   */
+  function alignByTimestamps(timestamps, dataTimestamps, data){
+    if (dataTimestamps === null || data === null || dataTimestamps.length === 0 || data.length === 0){
+      return Array.apply(null, new Array(timestamps.length)).map(function(){return null;});
+    }
+
+    var result = new Array(timestamps.length);
+    var n = 0;
+    for (var i = 0; i < timestamps.length; i ++){
+      var ts = timestamps[i];
+      var d = null;
+      for (;n < dataTimestamps.length; n ++){
+        var dts = dataTimestamps[n];
+        if (dts == ts){
+          d = data[n];
+          break;
+        }else if (dts > ts){
+          n --;
+          break;
+        }
+      }
+      result[i] = d;
+    }
+    return result;
+  }
+
+  /**
    * Calculate the averages from summaries and counts.
    * The averages will be put into the `a` property of the CJTSD object.
    * @param  {CJTSD} cjtsdObj the CJTSD object
@@ -408,6 +496,8 @@
   return {
     getTimestamps : getTimestamps,
     getFormattedTimestamps : getFormattedTimestamps,
+    mergeTimestamps : mergeTimestamps,
+    alignByTimestamps : alignByTimestamps,
     calculateAverages : calculateAverages,
     prepend : prepend,
     setDataTableColumn : setDataTableColumn,
