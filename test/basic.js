@@ -74,4 +74,26 @@ describe('Basic Tests', function() {
       assert.deepEqual([null,"two","three",null,"five"], cjtsd.alignByTimestamps([1,2,3,4,5], [2,3,5], ["two", "three", "five"]));
     });
   });
+  describe('#add()', function () {
+    it('should work', function () {
+      assert.deepEqual([1,2,3], cjtsd.add([1,2,3], null));
+      assert.deepEqual([1,2,3], cjtsd.add([0,0,1], cjtsd.add([1,0,0], [0,2,2])));
+      assert.deepEqual([1,0,3], cjtsd.add([0,0,1], [1, null, 2]));
+      assert.deepEqual([null,0,3], cjtsd.add([null,0,1], [null, null, 2]));
+    });
+  });
+  describe('#substract()', function () {
+    it('should work', function () {
+      assert.deepEqual([1,2,3], cjtsd.substract([1,2,3], null));
+      assert.deepEqual([-1,-2,-3], cjtsd.substract(null, [1,2,3]));
+      assert.deepEqual([-1,-1,-1], cjtsd.substract([1,1,2], cjtsd.substract([2,4,5], [0,2,2])));
+      assert.deepEqual([-1,5,-2], cjtsd.substract([null,5,null], [1, null, 2]));
+      assert.deepEqual([-1,null,-2], cjtsd.substract([null,null,null], [1, null, 2]));
+    });
+  });
+  describe('#merge()', function () {
+    it('should work', function () {
+      assert.deepEqual([1,2,3], cjtsd.merge(function(a,b){return a+b;}, [1,2,1], [0, 0, 2]));
+    });
+  });
 });

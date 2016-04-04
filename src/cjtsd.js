@@ -103,8 +103,8 @@
             min = x;
             pos[n] = p + 1;
             result[result.length - 1] = min;
-            for (var i = 0; i < nsOfMin.length; i ++){
-              pos[nsOfMin[i]] = pos[nsOfMin[i]] - 1;
+            for (var j = 0; j < nsOfMin.length; j ++){
+              pos[nsOfMin[j]] = pos[nsOfMin[j]] - 1;
             }
             nsOfMin.length = 0;
             nsOfMin.push(n);
@@ -492,6 +492,113 @@
     return mergedJSON;
   }
 
+  /**
+   * Add two arrays as vectors (return array1 + array2).
+   * The two input arrays must not be null and must have the same number of elements.
+   * @param {number[]} array1 the array to be added with the other
+   * @param {number[]} array2 the array to be added with the other
+   * @return a new arrray that each element is the result of adding elements at the same position in the input arrays
+   */
+  function add(array1, array2){
+    if ((typeof array1 === 'undefined' || array1 === null) && array2){
+      return array2.slice();
+    }
+
+    if ((typeof array2 === 'undefined' || array2 === null) && array1){
+      return array1.slice();
+    }
+
+    var result = new Array(array1.length);
+    for (var i = 0; i < array1.length; i ++){
+      var e1 = array1[i];
+      var e2 = array2[i];
+      if (e1 === null){
+        if (e2 === null){
+          result[i] = null;
+        }else{
+          result[i] = e2;
+        }
+      }else{
+        if (e2 === null){
+          result[i] = e1;
+        }else{
+          result[i] = e1 + e2;
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Substract one arrays by another as vectors (return array1 - array2)
+   * The two input arrays must not be null and must have the same number of elements.
+   * @param {number[]} array1 the array containing values that will be removed from
+   * @param {number[]} array2 the array containing values that will be removed
+   * @return a new arrray that each element is the result of substracting elements at the same position in the input arrays
+   */
+  function substract(array1, array2){
+    if ((typeof array1 === 'undefined' || array1 === null) && array2){
+      return array2.map(function(x){
+        if (x === null){
+          return x;
+        }else{
+          return 0-x;
+        }
+      });
+    }
+
+    if ((typeof array2 === 'undefined' || array2 === null) && array1){
+      return array1.slice();
+    }
+
+    var result = new Array(array1.length);
+    for (var i = 0; i < array1.length; i ++){
+      var e1 = array1[i];
+      var e2 = array2[i];
+      if (e1 === null){
+        if (e2 === null){
+          result[i] = null;
+        }else{
+          result[i] = 0 - e2;
+        }
+      }else{
+        if (e2 === null){
+          result[i] = e1;
+        }else{
+          result[i] = e1 - e2;
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Merge two arrays with a custom function
+   * The two input arrays must not be null and must have the same number of elements.
+   * @param {Function}  func  the function to merge elements from two arrays. parameters to this function may be null.
+   * @param {number[]} array1 the array to be merged with the other
+   * @param {number[]} array2 the array to be merged with the other
+   * @return a new arrray that each element is the result of merging elements at the same position in the input arrays
+   */
+  function merge(func, array1, array2){
+    if ((typeof array1 === 'undefined' || array1 === null) && array2){
+      return array2.slice();
+    }
+
+    if ((typeof array2 === 'undefined' || array2 === null) && array1){
+      return array1.slice();
+    }
+
+    var result = new Array(array1.length);
+    for (var i = 0; i < array1.length; i ++){
+      var e1 = array1[i];
+      var e2 = array2[i];
+      result[i] = func(e1, e2);
+    }
+    return result;
+  }
+
+
   //    exposed public methods
   return {
     getTimestamps : getTimestamps,
@@ -502,6 +609,9 @@
     prepend : prepend,
     setDataTableColumn : setDataTableColumn,
     setDataTableTimestampColumn : setDataTableTimestampColumn,
+    add : add,
+    substract : substract,
+    merge: merge,
     'from' : fromAny,
     mergeJSON : merged // this is exposed as a utility function just in case someone needs it.
   };

@@ -170,5 +170,49 @@ Supported formats are:
 **Returns**: `CJTSD`, a new CJTSD object, or null if unable to do the conversion
 
 
+### add(array1, array2) 
+
+Add two arrays as vectors (return array1 + array2).
+The two input arrays must not be null and must have the same number of elements.
+
+**Parameters**
+
+**array1**: `Array.&lt;number&gt;`, the array to be added with the other
+
+**array2**: `Array.&lt;number&gt;`, the array to be added with the other
+
+**Returns**: , a new arrray that each element is the result of adding elements at the same position in the input arrays
+
+
+### substract(array1, array2)
+
+Substract one arrays by another as vectors (return array1 - array2)
+The two input arrays must not be null and must have the same number of elements.
+
+**Parameters**
+
+**array1**: `Array.&lt;number&gt;`, the array containing values that will be removed from
+
+**array2**: `Array.&lt;number&gt;`, the array containing values that will be removed
+
+**Returns**: , a new arrray that each element is the result of substracting elements at the same position in the input arrays
+
+
+### merge(func, array1, array2)
+
+Merge two arrays with a custom function
+The two input arrays must not be null and must have the same number of elements.
+
+**Parameters**
+
+**func**: `function`, the function to merge elements from two arrays. parameters to this function may be null.
+
+**array1**: `Array.&lt;number&gt;`, the array to be merged with the other
+
+**array2**: `Array.&lt;number&gt;`, the array to be merged with the other
+
+**Returns**: , a new arrray that each element is the result of merging elements at the same position in the input arrays
+
+
 
 * * *
