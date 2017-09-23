@@ -6,7 +6,9 @@ API documentation is available [here](cjtsd.md).
 
 Latest version can be found on [npm](https://www.npmjs.com/package/cjtsd) and [bower](http://bower.io/search/?q=cjtsd)
 
-The Java library can be found [here](https://github.com/james-hu/jabb-core-java8/wiki/CJTSD-Java-library).
+There are CJTSD libraries for other programming languages:
+* Java - [in jabb-core-java8](https://github.com/james-hu/jabb-core-java8/wiki/CJTSD-Java)
+* C#/.Net - [CJTSD.Net](https://github.com/james-hu/cjtsd-net)
 
 ## Node.js
 ```
