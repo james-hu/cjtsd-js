@@ -23,7 +23,7 @@ var cjtsd = require("cjtsd");
 Something similar to this:
 ```html
 <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-<script src="https://npmcdn.com/cjtsd/dist/cjtsd.min.js"></script>
+<script src="https://unpkg.com/cjtsd/dist/cjtsd.min.js"></script>
 ```
 
 
